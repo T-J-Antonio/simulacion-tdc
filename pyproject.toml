@@ -1,0 +1,7 @@
+[project]
+name = "simulacion-tdc"
+version = "0.1.0"
+description = "Insano tp"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ['matplotlib']
