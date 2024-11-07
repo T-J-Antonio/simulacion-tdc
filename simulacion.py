@@ -7,7 +7,7 @@ def transferencia_rl(entrada):
     return entrada
 
 
-perturbaciones = {136: 2250, 151: 2250, 166: 2250}
+perturbaciones = {150: 2250, 1750: 2250, 4500: 2250}
 
 
 def generate_perturbacion(t):
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
         salida_rl = transferencia_rl(salida_total_controlador)
 
-        estado_del_servidor += salida_rl
+        estado_del_servidor += salida_rl + perturbacion
     # armar gráfico con lecturas
 
 
@@ -68,31 +68,13 @@ plt.plot(tiempos, estados_sv, label='Requests por minuto')
 plt.axhline(y=1300, color='y', linestyle='--', label='Umbral 3')
 plt.axhline(y=1200, color='g', linestyle='--', label='Umbral 2')
 plt.axhline(y=1100, color='b', linestyle='--', label='Umbral 1')
-# plt.axhline(y=50, color='b', linestyle='--', label='')
-plt.axhline(y=1000, color='r', linestyle='--', label='% CPU deseado')
-# plt.axhline(y=70, color='b', linestyle='--', label='')
-# plt.axhline(y=75, color='b', linestyle='--', label='')
-# plt.axhline(y=80, color='g', linestyle='--', label='')
-# plt.axhline(y=85, color='y', linestyle='--', label='')
+plt.axhline(y=1000, color='r', linestyle='--', label='Valor nominal')
 plt.xlabel('Tiempo')
 plt.ylabel('Requests')
 plt.title('Simulación de control de Rate Limiter')
 plt.legend()
 plt.grid(True)
 
-# plt.subplot(3, 1, 2)
-# plt.plot(lecturas, label='cant CPU')
-# plt.xlabel('Tiempo (seg)')
-# plt.ylabel('cant CPU')
-# plt.legend()
-# plt.grid(True)
-
-# plt.subplot(3, 1, 3)
-# plt.plot(lecturas, label='cant requests')
-# plt.xlabel('Tiempo (seg)')
-# plt.ylabel('cant requests')
-# plt.legend()
-# plt.grid(True)
 
 plt.tight_layout()
 # plt.savefig('simulacion.png')
