@@ -32,8 +32,8 @@ lecturas = []
 estados_sv = []
 tiempos = []
 valor_nominal = 1000
+Kd = 0.0008
 if __name__ == "__main__":
-    Kd = 0
     estado_del_servidor = 1000
     error_anterior = 0
     for i in range(10000):
