@@ -7,7 +7,7 @@ def transferencia_rl(entrada):
     return entrada
 
 
-perturbaciones = {150: 2250, 1750: 2250, 4500: 2250}
+perturbaciones = {150: 2250, 1750: -800, 4500: 1000}
 
 
 def generate_perturbacion(t):
@@ -25,14 +25,14 @@ def umbrales(error):
     elif 30 <= abs_error < 40:
         return -15 if error > 0 else 15
     else:
-        return -20 if error > 0 else 20
+        return -50 if error > 0 else 50
 
 
 lecturas = []
 estados_sv = []
 tiempos = []
 valor_nominal = 1000
-Kd = 0.0008
+Kd = 0.4
 if __name__ == "__main__":
     estado_del_servidor = 1000
     error_anterior = 0
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         tiempos.append(i)
         variacion = random.randint(-50, +50)
         estado_del_servidor += variacion
-        # agregar perturbaciones bruscas en ciertos puntos
+
         perturbacion = generate_perturbacion(i)
 
         valor_real = estado_del_servidor
@@ -57,17 +57,15 @@ if __name__ == "__main__":
         salida_rl = transferencia_rl(salida_total_controlador)
 
         estado_del_servidor += salida_rl + perturbacion
-    # armar gráfico con lecturas
 
 
 plt.figure(figsize=(15, 10))
 
-# Gráfico de temperatura
-plt.subplot(3, 1, 1)
+plt.subplot(1, 1, 1)
 plt.plot(tiempos, estados_sv, label='Requests por minuto')
-plt.axhline(y=1300, color='y', linestyle='--', label='Umbral 3')
-plt.axhline(y=1200, color='g', linestyle='--', label='Umbral 2')
-plt.axhline(y=1100, color='b', linestyle='--', label='Umbral 1')
+plt.axhline(y=1040, color='y', linestyle='--', label='Umbral 3')
+plt.axhline(y=1030, color='g', linestyle='--', label='Umbral 2')
+plt.axhline(y=1020, color='b', linestyle='--', label='Umbral 1')
 plt.axhline(y=1000, color='r', linestyle='--', label='Valor nominal')
 plt.xlabel('Tiempo')
 plt.ylabel('Requests')
