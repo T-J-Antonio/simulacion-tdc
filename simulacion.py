@@ -2,12 +2,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-def transferencia_rl(entrada):
-    # implementar algo como "sumar o restar X al estado del servidor según la entrada"
-    return entrada
-
-
-perturbaciones = {150: 2250, 1750: -800, 4500: 1000}
+perturbaciones = {3150: 2250, 1750: -800, 4500: 1000}
 
 
 def generate_perturbacion(t):
@@ -28,13 +23,13 @@ def umbrales(error):
         return -50 if error > 0 else 50
 
 
-lecturas = []
 estados_sv = []
+porcentajes_estado_sv = []
 tiempos = []
-valor_nominal = 1000
+valor_nominal = 1500
 Kd = 0.4
 if __name__ == "__main__":
-    estado_del_servidor = 1000
+    estado_del_servidor = 0
     error_anterior = 0
     for i in range(10000):
         tiempos.append(i)
@@ -44,7 +39,6 @@ if __name__ == "__main__":
         perturbacion = generate_perturbacion(i)
 
         valor_real = estado_del_servidor
-        lecturas.append(valor_real)
 
         señal_error = valor_nominal - valor_real
 
@@ -53,23 +47,43 @@ if __name__ == "__main__":
         error_anterior = señal_error
         salida_total_controlador = salida_proporcional + salida_derivativo
         estados_sv.append(estado_del_servidor)
+        porcentajes_estado_sv.append(
+            round(estado_del_servidor/valor_nominal*100, 2))
 
-        salida_rl = transferencia_rl(salida_total_controlador)
+        salida_rl = salida_total_controlador
 
         estado_del_servidor += salida_rl + perturbacion
 
 
 plt.figure(figsize=(15, 10))
 
-plt.subplot(1, 1, 1)
+plt.subplot(2, 1, 1)
 plt.plot(tiempos, estados_sv, label='Requests por minuto')
-plt.axhline(y=1040, color='y', linestyle='--', label='Umbral 3')
-plt.axhline(y=1030, color='g', linestyle='--', label='Umbral 2')
-plt.axhline(y=1020, color='b', linestyle='--', label='Umbral 1')
-plt.axhline(y=1000, color='r', linestyle='--', label='Valor nominal')
-plt.xlabel('Tiempo')
-plt.ylabel('Requests')
+plt.axhline(y=1540, color='y', linestyle='--', label='Umbral 3')
+plt.axhline(y=1530, color='g', linestyle='--', label='Umbral 2')
+plt.axhline(y=1520, color='b', linestyle='--', label='Umbral 1')
+plt.axhline(y=1460, color='y', linestyle='--')
+plt.axhline(y=1470, color='g', linestyle='--')
+plt.axhline(y=1480, color='b', linestyle='--')
+plt.axhline(y=1500, color='r', linestyle='--', label='Valor nominal')
+plt.xlabel('Tiempo (min)')
+plt.ylabel('Requests/min')
 plt.title('Simulación de control de Rate Limiter')
+plt.legend()
+plt.grid(True)
+
+plt.subplot(2, 1, 2)
+plt.plot(tiempos, porcentajes_estado_sv,
+         label='Porcentaje sobre valor nominal')
+plt.axhline(y=130, color='y', linestyle='--', label='Umbral 3')
+plt.axhline(y=120, color='g', linestyle='--', label='Umbral 2')
+plt.axhline(y=110, color='b', linestyle='--', label='Umbral 1')
+plt.axhline(y=70, color='y', linestyle='--')
+plt.axhline(y=80, color='g', linestyle='--')
+plt.axhline(y=90, color='b', linestyle='--')
+plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
+plt.xlabel('Tiempo (min)')
+plt.ylabel('Porcentaje de requests')
 plt.legend()
 plt.grid(True)
 
