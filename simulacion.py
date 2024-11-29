@@ -26,6 +26,9 @@ def umbrales(error):
 estados_sv = []
 porcentajes_estado_sv = []
 tiempos = []
+perturbaciones_list = []
+valores_e = []
+valores_f = []
 
 # Entrada
 valor_nominal = 1500
@@ -42,9 +45,11 @@ if __name__ == "__main__":
 
         # Señal f
         valor_real = estado_del_servidor
+        valores_f.append(variacion)
 
         # Señal e = f + entrada
         señal_error = valor_nominal - valor_real
+        valores_e.append(señal_error)
 
         # Kp
         salida_proporcional = umbrales(señal_error) * -1
@@ -60,16 +65,18 @@ if __name__ == "__main__":
             round(estado_del_servidor/valor_nominal*100, 2))
         salida_rl = salida_total_controlador
 
+
         # Perturbación
         perturbacion = generate_perturbacion(i)
+        perturbaciones_list.append(perturbacion)
 
         # Salida
         estado_del_servidor += salida_rl + perturbacion
 
 
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(20, 12))
 
-plt.subplot(2, 1, 1)
+plt.subplot(3, 2, 1)
 plt.plot(tiempos, estados_sv, label='Requests por minuto')
 plt.axhline(y=1540, color='y', linestyle='--', label='Umbral 3')
 plt.axhline(y=1530, color='g', linestyle='--', label='Umbral 2')
@@ -84,7 +91,7 @@ plt.title('Simulación de control de Rate Limiter')
 plt.legend()
 plt.grid(True)
 
-plt.subplot(2, 1, 2)
+plt.subplot(3, 2, 2)
 plt.plot(tiempos, porcentajes_estado_sv,
          label='Porcentaje sobre valor nominal')
 plt.axhline(y=130, color='y', linestyle='--', label='Umbral 3')
@@ -97,6 +104,24 @@ plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
 plt.xlabel('Tiempo (min)')
 plt.ylabel('Porcentaje de requests')
 plt.legend()
+plt.grid(True)
+
+plt.subplot(3, 2, 3)
+plt.plot(tiempos, perturbaciones_list)
+plt.xlabel('Tiempo (min)')
+plt.ylabel('Perturbaciones')
+plt.grid(True)
+
+plt.subplot(3, 2, 4)
+plt.plot(tiempos, valores_e)
+plt.xlabel('Tiempo (min)')
+plt.ylabel('Errores')
+plt.grid(True)
+
+plt.subplot(3, 2, 5)
+plt.plot(tiempos, valores_f)
+plt.xlabel('Tiempo (min)')
+plt.ylabel('Mediciones')
 plt.grid(True)
 
 
