@@ -58,13 +58,12 @@ if __name__ == "__main__":
         salida_derivativo = Kd * (señal_error - error_anterior)
         error_anterior = señal_error
 
-        # Controlador total = Kp + Kd        
+        # Controlador total = Kp + Kd
         salida_total_controlador = salida_proporcional + salida_derivativo
         estados_sv.append(estado_del_servidor)
         porcentajes_estado_sv.append(
             round(estado_del_servidor/valor_nominal*100, 2))
         salida_rl = salida_total_controlador
-
 
         # Perturbación
         perturbacion = generate_perturbacion(i)
