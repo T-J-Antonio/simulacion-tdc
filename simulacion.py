@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-perturbaciones = {3150: 2250, 1750: -800, 4500: 1000}
+perturbaciones = {1750: -800, 3150: 1250, 4500: 1000}
 
 
 def generate_perturbacion(t):
@@ -26,32 +26,44 @@ def umbrales(error):
 estados_sv = []
 porcentajes_estado_sv = []
 tiempos = []
+
+# Entrada
 valor_nominal = 1500
+
 Kd = 0.4
 if __name__ == "__main__":
     estado_del_servidor = 0
     error_anterior = 0
     for i in range(10000):
         tiempos.append(i)
+        # Medidor de tráfico
         variacion = random.randint(-50, +50)
         estado_del_servidor += variacion
 
-        perturbacion = generate_perturbacion(i)
-
+        # Señal f
         valor_real = estado_del_servidor
 
+        # Señal e = f + entrada
         señal_error = valor_nominal - valor_real
 
+        # Kp
         salida_proporcional = umbrales(señal_error) * -1
+
+        # Kd
         salida_derivativo = Kd * (señal_error - error_anterior)
         error_anterior = señal_error
+
+        # Controlador total = Kp + Kd        
         salida_total_controlador = salida_proporcional + salida_derivativo
         estados_sv.append(estado_del_servidor)
         porcentajes_estado_sv.append(
             round(estado_del_servidor/valor_nominal*100, 2))
-
         salida_rl = salida_total_controlador
 
+        # Perturbación
+        perturbacion = generate_perturbacion(i)
+
+        # Salida
         estado_del_servidor += salida_rl + perturbacion
 
 
