@@ -11,16 +11,18 @@ def generate_perturbacion(t):
 
 def umbrales(error):
     abs_error = abs(error)
+    correction = 0
     if abs_error < 10:
-        return 0
+        correction = 0
     elif 10 <= abs_error < 20:
-        return -5 if error > 0 else 5
+        correction = 5
     elif 20 <= abs_error < 30:
-        return -10 if error > 0 else 10
+        correction = 10
     elif 30 <= abs_error < 40:
-        return -15 if error > 0 else 15
+        correction = 15
     else:
-        return -50 if error > 0 else 50
+        correction = 50
+    return -correction if error > 0 else correction
 
 
 estados_sv = []
