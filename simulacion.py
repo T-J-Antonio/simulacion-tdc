@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-perturbaciones = {1750: -800, 3150: 1250, 4500: 1000}
+perturbaciones = {750: -800, 150: 1250, 500: 1000}
 
 
 def generate_perturbacion(t):
@@ -37,7 +37,7 @@ Kd = 0.4
 if __name__ == "__main__":
     estado_del_servidor = 0
     error_anterior = 0
-    for i in range(10000):
+    for i in range(1000):
         tiempos.append(i)
         # Medidor de tráfico
         variacion = random.randint(-50, +50)
