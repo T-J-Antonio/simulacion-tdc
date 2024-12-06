@@ -3,7 +3,7 @@ from tkinter import simpledialog, messagebox
 import matplotlib.pyplot as plt
 import random
 
-def run_simulation(valor_nominal, perturbaciones):
+def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     def generate_perturbacion(t):
         return perturbaciones[t] if t in perturbaciones else 0
 
@@ -32,8 +32,13 @@ def run_simulation(valor_nominal, perturbaciones):
     estado_del_servidor = 0
     error_anterior = 0
     Kd = 0.4
+    valor_nominal = initial_nominal
 
     for i in range(1000):
+        # Update `valor_nominal` based on time if there are changes
+        if i in nominal_changes:
+            valor_nominal = nominal_changes[i]
+
         tiempos.append(i)
         variacion = random.randint(-50, +50)
         estado_del_servidor += variacion
@@ -63,7 +68,10 @@ def run_simulation(valor_nominal, perturbaciones):
 
     plt.subplot(3, 2, 1)
     plt.plot(tiempos, estados_sv, label='Requests por minuto')
-    plt.axhline(y=valor_nominal, color='r', linestyle='--', label='Valor nominal')
+    plt.axhline(y=initial_nominal, color='r', linestyle='--', label='Initial valor_nominal')
+    for time, new_value in nominal_changes.items():
+        plt.axvline(x=time, color='g', linestyle='--', label=f'Change at t={time}')
+        plt.axhline(y=new_value, color='b', linestyle='--', label=f'New valor_nominal={new_value}')
     plt.xlabel('Tiempo (min)')
     plt.ylabel('Requests/min')
     plt.legend()
@@ -102,9 +110,17 @@ def main():
         root = tk.Tk()
         root.withdraw()
 
-        valor_nominal = simpledialog.askinteger("Input", "Enter valor_nominal:", minvalue=1)
-        if valor_nominal is None:
+        initial_nominal = simpledialog.askinteger("Input", "Enter initial valor_nominal:", minvalue=1)
+        if initial_nominal is None:
             break
+
+        nominal_changes = {}
+        while True:
+            change_time = simpledialog.askinteger("Input", "Enter time to change valor_nominal (or -1 to finish):", minvalue=-1)
+            if change_time == -1 or change_time is None:
+                break
+            new_value = simpledialog.askinteger("Input", f"Enter new valor_nominal at time={change_time}:")
+            nominal_changes[change_time] = new_value
 
         perturbaciones = {}
         while True:
@@ -114,7 +130,7 @@ def main():
             perturb_value = simpledialog.askinteger("Input", "Enter perturbation value:")
             perturbaciones[perturb_time] = perturb_value
 
-        run_simulation(valor_nominal, perturbaciones)
+        run_simulation(initial_nominal, nominal_changes, perturbaciones)
 
         if not messagebox.askyesno("Continue", "Do you want to run another simulation?"):
             break
