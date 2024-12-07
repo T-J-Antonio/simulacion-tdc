@@ -35,7 +35,6 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     Kd = 0.4
     valor_nominal = initial_nominal
     for i in range(1000):
-        # Update `valor_nominal` based on time if there are changes
         if i in nominal_changes:
             valor_nominal = nominal_changes[i]
 
@@ -99,13 +98,13 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.subplot(3, 2, 3)
     plt.plot(tiempos, perturbaciones_list)
     plt.xlabel('Tiempo [min]')
-    plt.ylabel('Perturbaciones')
+    plt.ylabel('Perturbaciones [Req]')
     plt.grid(True)
 
     plt.subplot(3, 2, 4)
     plt.plot(tiempos, valores_e)
     plt.xlabel('Tiempo [min]')
-    plt.ylabel('Señal de error')
+    plt.ylabel('Señal de error (e=f+θi)')
     plt.grid(True)
 
     plt.subplot(3, 2, 5)
