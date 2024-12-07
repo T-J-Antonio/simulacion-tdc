@@ -67,7 +67,6 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     valores_nominales[0] = 0  # so that the graph starts at 0
     plt.figure(figsize=(20, 12))
 
-    # TODO: falta agregar de nuevo los umbrales
     plt.subplot(3, 2, 1)
     plt.plot(tiempos, estados_sv, label='Requests por minuto')
     plt.axhline(y=initial_nominal, color='r', linestyle='--',
@@ -82,9 +81,17 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.legend()
     plt.grid(True)
 
+    # TODO: ajustar los valores de los umbrales (porque está en %)
     plt.subplot(3, 2, 2)
     plt.plot(tiempos, porcentajes_estado_sv,
              label='Porcentaje sobre valor nominal')
+    plt.axhline(y=115, color='y', linestyle='--', label='Umbral 3')
+    plt.axhline(y=110, color='g', linestyle='--', label='Umbral 2')
+    plt.axhline(y=105, color='b', linestyle='--', label='Umbral 1')
+    plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
+    plt.axhline(y=95, color='y', linestyle='--')
+    plt.axhline(y=90, color='g', linestyle='--')
+    plt.axhline(y=85, color='b', linestyle='--')
     plt.xlabel('Tiempo [min]')
     plt.ylabel('Porcentaje de requests')
     plt.legend()
