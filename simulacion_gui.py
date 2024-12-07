@@ -80,16 +80,56 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.legend()
     plt.grid(True)
 
+    # This graph does not include t = 0, VN[0] = 0, as it makes it kinda ugly
     plt.subplot(3, 2, 2)
     plt.plot(tiempos, porcentajes_estado_sv,
              label='Porcentaje sobre valor nominal')
-    plt.axhline(y=106, color='y', linestyle='--', label='Umbral 3')
-    plt.axhline(y=104, color='g', linestyle='--', label='Umbral 2')
-    plt.axhline(y=102, color='b', linestyle='--', label='Umbral 1')
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn + 20) * 100 / vn, valores_nominales[1:])),
+        color='b',
+        linestyle='--',
+        label='Umbral 1'
+    )
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn + 40) * 100 / vn, valores_nominales[1:])),
+        color='g',
+        linestyle='--',
+        label='Umbral 2'
+    )
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn + 60) * 100 / vn, valores_nominales[1:])),
+        color='y',
+        linestyle='--',
+        label='Umbral 3'
+    )
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn - 20) * 100 / vn, valores_nominales[1:])),
+        color='b',
+        linestyle='--'
+    )
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn - 40) * 100 / vn, valores_nominales[1:])),
+        color='g',
+        linestyle='--'
+    )
+    plt.plot(
+        tiempos[1:],
+        list(map(lambda vn: (vn - 60) * 100 / vn, valores_nominales[1:])),
+        color='y',
+        linestyle='--'
+    )
+    # plt.axhline(y=106, color='y', linestyle='--', label='Umbral 3')
+    # plt.axhline(y=104, color='g', linestyle='--', label='Umbral 2')
+    # plt.axhline(y=102, color='b', linestyle='--', label='Umbral 1')
     plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
-    plt.axhline(y=98, color='b', linestyle='--')
-    plt.axhline(y=96, color='g', linestyle='--')
-    plt.axhline(y=94, color='y', linestyle='--')
+    # plt.axhline(y=98, color='b', linestyle='--')
+    # plt.axhline(y=96, color='g', linestyle='--')
+    # plt.axhline(y=94, color='y', linestyle='--')
     plt.xlabel('Tiempo [min]')
     plt.ylabel('Porcentaje de requests')
     plt.legend()
