@@ -85,13 +85,13 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.subplot(3, 2, 2)
     plt.plot(tiempos, porcentajes_estado_sv,
              label='Porcentaje sobre valor nominal')
-    plt.axhline(y=115, color='y', linestyle='--', label='Umbral 3')
-    plt.axhline(y=110, color='g', linestyle='--', label='Umbral 2')
-    plt.axhline(y=105, color='b', linestyle='--', label='Umbral 1')
+    plt.axhline(y=106, color='y', linestyle='--', label='Umbral 3')
+    plt.axhline(y=104, color='g', linestyle='--', label='Umbral 2')
+    plt.axhline(y=102, color='b', linestyle='--', label='Umbral 1')
     plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
-    plt.axhline(y=95, color='y', linestyle='--')
-    plt.axhline(y=90, color='g', linestyle='--')
-    plt.axhline(y=85, color='b', linestyle='--')
+    plt.axhline(y=98, color='y', linestyle='--')
+    plt.axhline(y=96, color='g', linestyle='--')
+    plt.axhline(y=94, color='b', linestyle='--')
     plt.xlabel('Tiempo [min]')
     plt.ylabel('Porcentaje de requests')
     plt.legend()
@@ -124,6 +124,9 @@ def main():
         root = tk.Tk()
         root.withdraw()
 
+        messagebox.showinfo(
+            "Simulación", "Bienvenido a la simulación de un Rate Limiter.\nSe le solicitará ingresar los valores nominales y las perturbaciones a continuación.")
+
         initial_nominal = simpledialog.askinteger(
             "Input", "Ingrese valor nominal inicial:", minvalue=1)
         if initial_nominal is None:
@@ -153,7 +156,7 @@ def main():
 
         if not messagebox.askyesno("Continuar", "¿Desea realizar otra simulación?"):
             messagebox.showinfo(
-                "Fin", "Gracias por utilizar el sistema de simulación")
+                "Fin", "Gracias por utilizar el sistema de simulación.")
             break
 
 
