@@ -81,7 +81,6 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.legend()
     plt.grid(True)
 
-    # TODO: ajustar los valores de los umbrales (porque está en %)
     plt.subplot(3, 2, 2)
     plt.plot(tiempos, porcentajes_estado_sv,
              label='Porcentaje sobre valor nominal')
