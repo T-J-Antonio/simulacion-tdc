@@ -43,16 +43,21 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
         variacion = random.randint(-50, +50)
         estado_del_servidor += variacion
 
+        # ELEM. DE MEDICIÓN
         valor_real = estado_del_servidor
 
+        # PTO. SUMA
         señal_error = valor_nominal - valor_real
         valores_e.append(señal_error)
 
+        # ENTRADA AL CONTROLADOR
         salida_proporcional = umbrales(señal_error) * -1
         salida_derivativo = Kd * (señal_error - error_anterior)
         error_anterior = señal_error
 
         salida_total_controlador = salida_proporcional + salida_derivativo
+        # SALIDA DEL CONTROLADOR
+
         estados_sv.append(estado_del_servidor)
         porcentajes_estado_sv.append(
             round(estado_del_servidor / valor_nominal * 100, 2))
