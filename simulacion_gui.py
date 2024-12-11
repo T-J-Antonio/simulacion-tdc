@@ -128,15 +128,10 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
         color='y',
         linestyle='--'
     )
-    # plt.axhline(y=106, color='y', linestyle='--', label='Umbral 3')
-    # plt.axhline(y=104, color='g', linestyle='--', label='Umbral 2')
-    # plt.axhline(y=102, color='b', linestyle='--', label='Umbral 1')
     plt.axhline(y=100, color='r', linestyle='--', label='Valor nominal')
-    # plt.axhline(y=98, color='b', linestyle='--')
-    # plt.axhline(y=96, color='g', linestyle='--')
-    # plt.axhline(y=94, color='y', linestyle='--')
+
     plt.xlabel('Tiempo [min]')
-    plt.ylabel('Porcentaje de requests')
+    plt.ylabel('Porcentaje de requests [%]')
     plt.legend()
     plt.grid(True)
 
@@ -149,13 +144,13 @@ def run_simulation(initial_nominal, nominal_changes, perturbaciones):
     plt.subplot(3, 2, 4)
     plt.plot(tiempos, valores_e)
     plt.xlabel('Tiempo [min]')
-    plt.ylabel('Señal de error (e=f+θi)')
+    plt.ylabel('Señal de error (e=f+θi) [Req]')
     plt.grid(True)
 
     plt.subplot(3, 2, 5)
     plt.plot(tiempos, valores_nominales)
     plt.xlabel('Tiempo [min]')
-    plt.ylabel('Entrada (θi)')
+    plt.ylabel('Entrada (θi) [Req]')
     plt.grid(True)
 
     plt.tight_layout()
